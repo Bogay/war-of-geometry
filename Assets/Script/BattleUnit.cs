@@ -12,19 +12,21 @@ public class BattleUnit : MonoBehaviour
 	bool enableAttack;
 	bool enableMove;
 	CriticalHitBehavior chb = null;
+	Attack mAttack;
 
 	protected virtual void doAttack(Attack atk)
 	{
 
 	}
 
-	protected virtual int getPenetration() { return 0; }
-	protected virtual int getDamage() { return damage; }
-	protected virtual int getDefense() { return defense; }
+	public virtual int getPenetration() { return 0; }
+	public virtual int getDamage() { return damage; }
+	public virtual int getDefense() { return defense; }
 
 	Attack getAttack()
 	{
-		Attack atk = new Attack(getDamage(), getPenetration());
+		mAttack.propertyUpdate();
+		Attack atk = mAttack.clone();
 		if(chb != null)
 		{
 			atk = chb.CriticalHit(atk);
@@ -53,7 +55,7 @@ public class BattleUnit : MonoBehaviour
 	// Use this for initialization
 	void Start( )
 	{
-
+		mAttack = gameObject.GetComponent<Attack>();
 	}
 
 	// Update is called once per frame
